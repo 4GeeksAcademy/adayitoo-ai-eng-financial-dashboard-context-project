@@ -13,7 +13,7 @@ Esta guía contrasta el resumen del proyecto con el código y el estado observad
 - **✓** El frontend React/TypeScript solicita `GET /api/metrics`, calcula ingresos, gastos, beneficio y margen, y construye los datos mensuales de sus gráficos.
 - **✓** FastAPI define `GET /health` y `GET /api/metrics`. La segunda ruta genera 360 movimientos financieros ficticios con semilla fija (`42`) y acepta filtros de fecha, categoría y tipo de operación.
 - **✗** El título del dashboard está fijado a `2024 - Full Year`, pero los movimientos se generan en relación con la fecha actual. A fecha de esta verificación (octubre de 2026), el generador asigna movimientos a 2025 y 2026, no a 2024.
-- **✗** Los tests del backend esperan además rutas B2B/B2C, facets, resumen, categorías principales, comparación y alertas. Esas rutas no están definidas en el `backend/app/routes.py` actual.
+- **✓** El backend también define rutas B2B/B2C, facets, resumen, categorías principales, comparación y alertas; sus contratos están cubiertos por los tests de `backend/tests/test_routes.py`.
 
 ## Cómo se ejecuta y conecta
 
