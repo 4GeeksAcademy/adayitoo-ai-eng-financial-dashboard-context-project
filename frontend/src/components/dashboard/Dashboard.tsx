@@ -36,6 +36,9 @@ export function Dashboard() {
 
   return (
     <main className="dark min-h-screen bg-background text-foreground">
+      <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {loading ? "Updating dashboard data." : error ? "" : "Dashboard data updated."}
+      </p>
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6">
           <DashboardHeader period={period} />
@@ -43,7 +46,7 @@ export function Dashboard() {
           {error ? (
             <div
               role="alert"
-              className="flex flex-col gap-3 rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive-foreground sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-3 rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive sm:flex-row sm:items-center sm:justify-between"
             >
               <span>{error}</span>
               <button
@@ -53,7 +56,7 @@ export function Dashboard() {
                 className="inline-flex items-center justify-center gap-2 self-start rounded-md border border-current px-3 py-2 font-medium disabled:cursor-not-allowed disabled:opacity-60 sm:self-auto"
               >
                 <RefreshCw size={16} aria-hidden="true" />
-                Reintentar
+                Retry
               </button>
             </div>
           ) : null}
@@ -65,17 +68,17 @@ export function Dashboard() {
               onFiltersChange={updateFilters}
             />
           ) : (
-            <section aria-label="Cargando filtros" aria-busy="true">
+            <section aria-label="Loading filters" aria-busy="true">
               <Skeleton className="h-36 w-full" />
             </section>
           )}
 
-          <section aria-label="Indicadores clave" aria-busy={loading}>
+          <section aria-label="Key performance indicators" aria-busy={loading}>
             <KPIRow metrics={metrics} loading={loading} />
           </section>
 
           <section
-            aria-label="Gráficos financieros"
+            aria-label="Financial charts"
             aria-busy={loading}
             className="grid grid-cols-1 gap-4 xl:grid-cols-2"
           >
@@ -84,7 +87,8 @@ export function Dashboard() {
           </section>
 
           <section
-            aria-label="Análisis detallado"
+            aria-label="Detailed analysis"
+            aria-busy={loading}
             className="grid grid-cols-1 gap-4 xl:grid-cols-2"
           >
             <AlertsTable alerts={alerts} loading={loading} />

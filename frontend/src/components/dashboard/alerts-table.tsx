@@ -15,7 +15,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 
 function LoadingRows() {
   return (
-    <div className="space-y-3 py-2" aria-label="Cargando alertas">
+    <div className="space-y-3 py-2" aria-hidden="true">
       {[0, 1, 2].map((row) => (
         <Skeleton key={row} className="h-8 w-full" />
       ))}
@@ -27,7 +27,7 @@ export function AlertsTable({ alerts, loading }: AlertsTableProps) {
   return (
     <Card className="gap-0 py-0">
       <CardHeader className="border-b border-border px-5 py-4">
-        <CardTitle className="text-sm font-semibold">Anomalías de gasto</CardTitle>
+        <CardTitle className="text-sm font-semibold">Spending anomalies</CardTitle>
       </CardHeader>
       <CardContent className="px-0 py-0">
         {loading && alerts.length === 0 ? (
@@ -36,17 +36,17 @@ export function AlertsTable({ alerts, loading }: AlertsTableProps) {
           </div>
         ) : alerts.length === 0 ? (
           <p className="px-5 py-8 text-center text-sm text-muted-foreground">
-            No hay anomalías para los filtros seleccionados.
+            No anomalies match the selected filters.
           </p>
         ) : (
           <div className="overflow-x-auto" aria-busy={loading}>
             <table className="w-full min-w-[560px] text-left text-sm">
               <thead className="bg-muted/60 text-xs uppercase text-muted-foreground">
                 <tr>
-                  <th scope="col" className="px-5 py-3 font-medium">Período</th>
-                  <th scope="col" className="px-5 py-3 text-right font-medium">Gasto</th>
-                  <th scope="col" className="px-5 py-3 text-right font-medium">Promedio previo</th>
-                  <th scope="col" className="px-5 py-3 text-right font-medium">Aumento</th>
+                  <th scope="col" className="px-5 py-3 font-medium">Period</th>
+                  <th scope="col" className="px-5 py-3 text-right font-medium">Spending</th>
+                  <th scope="col" className="px-5 py-3 text-right font-medium">Previous average</th>
+                  <th scope="col" className="px-5 py-3 text-right font-medium">Increase</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">

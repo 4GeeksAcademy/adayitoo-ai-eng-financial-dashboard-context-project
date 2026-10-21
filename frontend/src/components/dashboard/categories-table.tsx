@@ -39,25 +39,25 @@ export function CategoriesTable({
   return (
     <Card className="gap-0 py-0">
       <CardHeader className="border-b border-border px-5 py-4">
-        <CardTitle className="text-sm font-semibold">Gastos por categoría</CardTitle>
+        <CardTitle className="text-sm font-semibold">Spending by category</CardTitle>
       </CardHeader>
       <CardContent className="px-0 py-0">
         {loading && !hasRows ? (
-          <div className="space-y-3 px-5 py-4" aria-label="Cargando categorías">
+          <div className="space-y-3 px-5 py-4" aria-hidden="true">
             {[0, 1, 2, 3, 4].map((row) => (
               <Skeleton key={row} className="h-8 w-full" />
             ))}
           </div>
         ) : !hasRows ? (
           <p className="px-5 py-8 text-center text-sm text-muted-foreground">
-            No hay categorías para los filtros seleccionados.
+            No categories match the selected filters.
           </p>
         ) : (
           <div className="overflow-x-auto" aria-busy={loading}>
             <table className="w-full min-w-[420px] text-left text-sm">
               <thead className="bg-muted/60 text-xs uppercase text-muted-foreground">
                 <tr>
-                  <th scope="col" className="px-5 py-3 font-medium">Categoría</th>
+                  <th scope="col" className="px-5 py-3 font-medium">Category</th>
                   <th scope="col" className="px-5 py-3 text-right font-medium">B2B</th>
                   <th scope="col" className="px-5 py-3 text-right font-medium">B2C</th>
                 </tr>

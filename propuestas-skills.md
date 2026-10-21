@@ -18,6 +18,16 @@ Propuestas derivadas de una revisión estática con las skills de accesibilidad 
 
 7. **P2 — Reducir consultas al editar el umbral.** El campo actualiza el filtro en cada cambio en [facets-view.tsx](frontend/src/components/dashboard/facets-view.tsx#L69), y cada actualización dispara las cuatro solicitudes paralelas del hook. Considerar aplicar los filtros con un botón o retrasar la consulta del umbral hasta que termine la edición.
 
+8. **P1 — Comprobar el uso completo con teclado.** Verificar que se pueda llegar a todos los controles con `Tab`, volver con `Mayús + Tab` y activarlos con `Enter` o la barra espaciadora, según corresponda. Asegurar que el foco sea visible y que no quede atrapado en ningún elemento.
+
+9. **P1 — Revisar nombres y roles accesibles de los controles.** Comprobar que botones, filtros y campos tengan nombres que expliquen su función y que su tipo y estado se comuniquen correctamente a tecnologías de asistencia. Preferir controles HTML nativos y usar `aria-*` o `role` solo cuando haga falta.
+
+10. **P2 — Revisar el texto alternativo de imágenes e íconos.** Añadir una descripción a las imágenes e íconos que transmitan información. Marcar como decorativos los que no aporten información, para que el lector de pantalla no los anuncie innecesariamente. Los botones que solo muestran un ícono deben tener un nombre accesible.
+
+11. **P2 — Comprobar el contraste de textos y controles.** Verificar que el texto se distinga suficientemente del fondo y que los controles y sus indicadores de foco sean visibles. Como referencia WCAG AA, apuntar a un contraste mínimo de `4.5:1` para texto normal y `3:1` para texto grande y componentes visuales.
+
 ## Verificación posterior
 
 La revisión de código confirma que las cuatro solicitudes ya se ejecutan en paralelo. No se recomienda añadir memoización para las agregaciones actuales sin medir primero su impacto. Para cerrar la auditoría de accesibilidad, comprobar la página renderizada con Lighthouse, navegación por teclado y lector de pantalla.
+
+Durante la verificación manual, recorrer los controles con `Tab` y `Mayús + Tab`, activarlos con el teclado y confirmar que el foco siempre sea visible y no quede atrapado. Revisar los nombres y estados accesibles de los controles y medir el contraste de textos y componentes dudosos. Registrar qué se comprobó y qué queda pendiente; una herramienta automática por sí sola no garantiza que todo sea accesible.

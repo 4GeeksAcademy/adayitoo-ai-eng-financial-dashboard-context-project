@@ -25,6 +25,13 @@ interface DashboardDataBatch {
   b2cCategories: TopCategoriesResponse;
 }
 
+const EMPTY_DASHBOARD_DATA: DashboardDataBatch = {
+  movements: [],
+  alerts: [],
+  b2bCategories: [],
+  b2cCategories: [],
+};
+
 async function fetchJson<T>(url: string, signal: AbortSignal): Promise<T> {
   const response = await fetch(url, { signal });
   if (!response.ok) {
@@ -108,12 +115,7 @@ export function useDashboardData() {
   const [facets, setFacets] = useState<FacetsResponse | null>(null);
   const [filters, setFilters] = useState<DashboardFilters>({ threshold: 0.3 });
   const [filtersReady, setFiltersReady] = useState(false);
-  const [data, setData] = useState<DashboardDataBatch>({
-    movements: [],
-    alerts: [],
-    b2bCategories: [],
-    b2cCategories: [],
-  });
+  const [data, setData] = useState<DashboardDataBatch>(EMPTY_DASHBOARD_DATA);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [facetsAttempt, setFacetsAttempt] = useState(0);
@@ -144,7 +146,7 @@ export function useDashboardData() {
           setError(
             loadError instanceof Error
               ? loadError.message
-              : "No se pudieron cargar los filtros de la API.",
+              : "The dashboard filters could not be loaded.",
           );
           setLoading(false);
         }
@@ -161,6 +163,7 @@ export function useDashboardData() {
     const controller = new AbortController();
 
     async function loadData() {
+      setData(EMPTY_DASHBOARD_DATA);
       setLoading(true);
       setError(null);
       try {
@@ -174,7 +177,7 @@ export function useDashboardData() {
           setError(
             loadError instanceof Error
               ? loadError.message
-              : "No se pudieron cargar los datos del dashboard.",
+              : "The dashboard data could not be loaded.",
           );
         }
       } finally {
