@@ -29,12 +29,20 @@ Esta guía contrasta el resumen del proyecto con el código y el estado observad
 - **✓** La documentación interactiva de FastAPI está prevista en `http://localhost:8000/docs`.
 - **✗** Compose no declara un `healthcheck`; que un contenedor figure como activo no asegura que la API ya responda.
 
-## Estado comprobado en esta sesión
+## Verificación previa
 
-- **✓** `docker compose config --services` terminó correctamente y listó los dos servicios.
-- **✗** `docker compose ps` no mostró contenedores activos; ahora mismo no hay servicios levantados.
-- **?** No se verificaron respuestas HTTP de `/health` ni `/api/metrics`: al no haber backend activo, no se confirmó su respuesta en ejecución.
-- **?** `pytest -q backend/tests/test_routes.py` no pudo recolectar los tests: el entorno no tiene instalado `fastapi` (`ModuleNotFoundError`). Por eso no se puede afirmar que los tests pasen.
+- En una verificación anterior, `docker compose ps` no mostró contenedores activos y no se comprobaron respuestas HTTP. Ese resultado es histórico y no describe el estado de la revisión del 2026-10-20 que se documenta abajo.
+- `pytest -q backend/tests/test_routes.py` no pudo recolectar los tests en esa verificación anterior porque el entorno del host no tenía instalado `fastapi` (`ModuleNotFoundError`). No se afirma que los tests pasen o fallen funcionalmente.
+
+## Verificación de contratos analíticos (2026-10-20)
+
+- **✓ Servicio iniciado:** `docker compose up --build backend`; Compose construyó la imagen y Uvicorn reportó `Application startup complete` en `http://localhost:8000`.
+- **✓ Documentación abierta:** `"$BROWSER" http://localhost:8000/docs`.
+- **✓ Contratos publicados:** `python3` consultó `http://localhost:8000/openapi.json`. Se confirmaron `GET /api/metrics/summary`, `GET /api/metrics/comparison` y `GET /api/metrics/alerts`, sus parámetros y schemas de respuesta.
+- **✓ Respuestas ejecutadas:** se consultaron las tres rutas. Summary devolvió una lista (12 elementos en la muestra); comparison un objeto con `current_period`, `previous_period`, `delta_abs` y `delta_pct`; alerts una lista (4 elementos en la muestra).
+- **✓ Patrón frontend contrastado:** búsqueda de `fetch`, `axios`, `VITE_API_BASE_URL` y `/api/metrics` bajo `frontend/src/` encontró una llamada en `frontend/src/App.tsx`, a `/api/metrics`. Las tres rutas analíticas no tienen consumidores frontend observados.
+- **✓ Terminología documentada:** la especificación diferencia `net` de **Profit**, `delta_pct` de **Profit Margin** e indica que `increase_ratio` se convierte a porcentaje multiplicándolo por 100. Ver `frontend/specs/analytics-endpoints.md`.
+- No se modificó código de aplicación ni se ejecutó la suite de tests como parte de este análisis de contratos.
 
 ## Cómo repetir la comprobación
 
