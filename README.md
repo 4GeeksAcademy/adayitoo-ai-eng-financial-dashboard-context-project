@@ -49,6 +49,16 @@ If you need to target a different backend origin, copy `frontend/.env.example` t
 - Backend: http://localhost:8000
 - API documentation: http://localhost:8000/docs
 
+## Production frontend image
+
+The Dockerfile builds static assets served by Nginx on port `80` by default, and proxies `/api` to the backend. Put both containers on the same network and set `API_UPSTREAM` to the backend's DNS name and port:
+
+```bash
+docker build -t financial-dashboard-frontend ./frontend
+```
+
+When running the image, publish port `80`, connect it to the same Docker network as the backend, and set `API_UPSTREAM` if the backend is not named `backend` or does not listen on port `8000`. `docker compose up --build` keeps using Vite's development stage and hot reload.
+
 ---
 
 This and many other projects are built by students as part of the [Career Programs](https://4geeksacademy.com/compare-programs) at [4Geeks Academy](https://4geeksacademy.com). By [@marcogonzalo](https://github.com/marcogonzalo) and [other contributors](https://github.com/4GeeksAcademy/ai-eng-financial-dashboard-context-project/graphs/contributors). Find out more about [AI Engineering](https://4geeksacademy.com/en/coding-bootcamps/ai-engineering), [Data Science & Machine Learning](https://4geeksacademy.com/en/coding-bootcamps/data-science-ml), [Cybersecurity](https://4geeksacademy.com/en/coding-bootcamps/cybersecurity) and [Full-Stack Software Developer with AI](https://4geeksacademy.com/en/coding-bootcamps/full-stack-developer).

@@ -49,6 +49,16 @@ Si necesitas apuntar a otro backend, copia `frontend/.env.example` como `.env` y
 - Backend: http://localhost:8000
 - Documentación API: http://localhost:8000/docs
 
+## Imagen frontend para producción
+
+El Dockerfile genera por defecto una build estática servida por Nginx en el puerto `80`; `/api` se reenvía al backend. Para construir y ejecutar la imagen, conecta ambos contenedores a la misma red y configura `API_UPSTREAM` con el nombre DNS y puerto del backend:
+
+```bash
+docker build -t financial-dashboard-frontend ./frontend
+```
+
+Al ejecutar la imagen, publícala en el puerto `80`, conéctala a la misma red Docker del backend y configura `API_UPSTREAM` si el backend no se llama `backend` o no escucha en el puerto `8000`. `docker compose up --build` conserva el stage de desarrollo de Vite y su recarga en caliente.
+
 ---
 
 Este y muchos otros proyectos son construidos por estudiantes como parte de los [Coding Bootcamps](https://4geeksacademy.com/) de 4Geeks Academy. Encuentra más acerca de los [cursos](https://4geeksacademy.com/es/comparar-programas) de [Ingeniería de IA](https://4geeksacademy.com/es/coding-bootcamps/ingenieria-ia), [Data Science & Machine Learning](https://4geeksacademy.com/es/coding-bootcamps/curso-datascience-machine-learning), [Ciberseguridad](https://4geeksacademy.com/es/coding-bootcamps/curso-ciberseguridad) y [Full-Stack Software Developer con IA](https://4geeksacademy.com/es/coding-bootcamps/programador-full-stack).
