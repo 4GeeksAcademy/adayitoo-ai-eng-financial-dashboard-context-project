@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:contract": "vitest run specs/contract-tests/"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
