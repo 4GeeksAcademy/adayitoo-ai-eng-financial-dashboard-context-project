@@ -62,7 +62,7 @@ export function ProfitPercentChart({ data, loading }: ProfitPercentChartProps) {
     )
   }
 
-  const hasData = data.some((d) => d.profitPercent !== 0)
+  const hasData = data.length > 0
 
   return (
     <Card className="border-border/60">
@@ -77,7 +77,7 @@ export function ProfitPercentChart({ data, loading }: ProfitPercentChartProps) {
           </div>
         ) : (
           <ResponsiveContainer width="100%" height={280}>
-            <LineChart data={data} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+            <LineChart accessibilityLayer data={data} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" strokeOpacity={0.6} />
               <XAxis
                 dataKey="month"
@@ -107,6 +107,32 @@ export function ProfitPercentChart({ data, loading }: ProfitPercentChartProps) {
             </LineChart>
           </ResponsiveContainer>
         )}
+        {hasData ? (
+          <details className="mt-4">
+            <summary className="inline-flex min-h-6 cursor-pointer items-center text-sm font-medium text-primary underline-offset-4 hover:underline">
+              View chart data as a table
+            </summary>
+            <div className="mt-3 overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <caption className="sr-only">Monthly profit margin values</caption>
+                <thead className="bg-muted/60 text-xs uppercase text-muted-foreground">
+                  <tr>
+                    <th scope="col" className="px-3 py-2 font-medium">Month</th>
+                    <th scope="col" className="px-3 py-2 text-right font-medium">Profit margin</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {data.map((point) => (
+                    <tr key={point.month}>
+                      <th scope="row" className="px-3 py-2 font-medium text-foreground">{point.month}</th>
+                      <td className="px-3 py-2 text-right tabular-nums">{point.profitPercent.toFixed(1)}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </details>
+        ) : null}
       </CardContent>
     </Card>
   )
